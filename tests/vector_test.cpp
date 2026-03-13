@@ -84,7 +84,8 @@ TEST(VectorTest, InitializerListAssign) {
 
 TEST(VectorTest, SelfAssign) {
     ministl::vector<int> v{1, 2, 3};
-    v = v;
+    auto& ref = v;
+    v = ref;  // 间接引用，Clang 不会报 self-assign 警告
     EXPECT_EQ(v.size(), 3u);
     EXPECT_EQ(v[0], 1);
 }
