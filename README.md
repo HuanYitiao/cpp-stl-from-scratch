@@ -2,23 +2,40 @@
 
 A from-scratch implementation of C++ STL containers, built for deep understanding of data structures and memory management.
 
-## Containers
+## Roadmap
 
+### Phase 1 — Sequence Containers
 | # | Container | Status |
 |---|-----------|--------|
-| 1 | `Vector` | 🔨 In Progress |
-| 2 | `List` | ⬜ |
-| 3 | `Deque` | ⬜ |
-| 4 | `HashTable` | ⬜ |
-| 5 | `Red-Black Tree` | ⬜ |
-| 6 | `Set` | ⬜ |
+| 1 | `vector` | 🔨 In Progress |
+| 2 | `list` | ⬜ |
+
+### Phase 2 — Adapters + Deque
+| # | Container | Status |
+|---|-----------|--------|
+| 3 | `deque` | ⬜ |
+| 4 | `stack` | ⬜ |
+| 5 | `queue` | ⬜ |
+
+### Phase 3 — Hash Table Family
+| # | Container | Status |
+|---|-----------|--------|
+| 6 | `hashtable` (engine) | ⬜ |
 | 7 | `unordered_set` | ⬜ |
-| 8 | `multiset` | ⬜ |
-| 9 | `Map` | ⬜ |
-| 10 | `unordered_map` | ⬜ |
-| 11 | `multimap` | ⬜ |
-| 12 | `Stack` | ⬜ |
-| 13 | `Queue` | ⬜ |
+| 8 | `unordered_map` | ⬜ |
+
+### Phase 4 — Red-Black Tree Family
+| # | Container | Status |
+|---|-----------|--------|
+| 9 | `rbtree` (engine) | ⬜ |
+| 10 | `set` | ⬜ |
+| 11 | `map` | ⬜ |
+| 12 | `multiset` | ⬜ |
+| 13 | `multimap` | ⬜ |
+
+### Phase 5 — Heap Adapter
+| # | Container | Status |
+|---|-----------|--------|
 | 14 | `priority_queue` | ⬜ |
 
 ## Build & Test
@@ -26,7 +43,7 @@ A from-scratch implementation of C++ STL containers, built for deep understandin
 ```bash
 mkdir build && cd build
 cmake ..
-make
+make -j$(nproc)
 ctest --output-on-failure
 ```
 
@@ -34,12 +51,15 @@ ctest --output-on-failure
 
 - C++17
 - CMake 3.14+
-- Google Test
+- Google Test (fetched automatically)
+- GitHub Actions CI (GCC + Clang)
 
-## Design Notes
+## Project Structure
 
-Each container lives in its own directory with:
-- `container.h` — Header-only implementation
-- `container_test.cpp` — Google Test unit tests
+```
+include/ministl/     Header-only implementations
+tests/               Google Test unit tests
+.github/workflows/   CI configuration
+```
 
-All containers are under the `ministl` namespace.
+All containers live under the `ministl` namespace.
