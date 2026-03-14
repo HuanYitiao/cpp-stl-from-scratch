@@ -88,21 +88,39 @@ public:
     size_type capacity() const noexcept { return capacity_; }
 
     void reserve(size_type new_cap) {
-        // TODO
+        if(new_cap <= capacity_)
+        {
+            return;
+        }
+
+        T* nptr;
+        nptr = new T[new_cap];
+        for (int i = 0; i < size_; i++)
+        {
+            nptr[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = nptr;
+        capacity_ = new_cap;
     }
 
     // ─── 修改器 ───────────────────────────────────────────
 
     void clear() noexcept {
-        // TODO
+        size_ = 0;
     }
 
     void push_back(const T& value) {
-        // TODO
+        if(size_ == capacity_)
+        {
+            grow();
+        }
+        data_[size_] = value;
+        size_++;
     }
 
     void pop_back() {
-        // TODO
+        size_--;
     }
 
     iterator insert(const_iterator pos, const T& value) {
