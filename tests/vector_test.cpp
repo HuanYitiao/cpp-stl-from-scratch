@@ -125,7 +125,6 @@ TEST(VectorTest, SingleElement) {
 //   range构造, begin/end, cbegin/cend
 // ═══════════════════════════════════════════════════════════════
 
-/*
 TEST(VectorTest, FillConstruct) {
     ministl::vector<int> v(5, 42);
     EXPECT_EQ(v.size(), 5u);
@@ -175,7 +174,6 @@ TEST(VectorTest, ConstIterator) {
     }
     EXPECT_EQ(sum, 6);
 }
-*/
 
 // ═══════════════════════════════════════════════════════════════
 // Phase 3: 拷贝 + 赋值

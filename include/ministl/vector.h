@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <stdexcept>
 
+#include <type_traits>
+
 namespace ministl {
 
 template <typename T>
@@ -26,7 +28,28 @@ public:
 
     // fill 构造: vector<int> v(5, 42)
     explicit vector(size_type count, const T& value = T()) {
-        // TODO
+        reserve(count);
+        for (size_type i = 0; i < count; i++)
+        {
+            push_back(value);
+        }
+    }
+
+    vector(std::initializer_list<T> init) {
+        reserve(init.size());
+        for (const T& val: init)
+        {
+            push_back(val);
+        }
+    }
+
+template <typename InputIt,
+          typename = std::enable_if_t<!std::is_integral_v<InputIt>>>
+    vector(InputIt first, InputIt last) {
+        for (auto it = first; it != last; ++it)
+        {
+            push_back(*it);
+        }  
     }
 
     // 拷贝构造
@@ -81,6 +104,9 @@ public:
     iterator end() noexcept { return data_ + size_; }
     const_iterator end() const noexcept { return data_ + size_; }
 
+    const_iterator cbegin() const noexcept { return data_; }
+    const_iterator cend() const noexcept { return data_ + size_; }
+
     // ─── 容量 ─────────────────────────────────────────────
 
     bool empty() const noexcept { return size_ == 0; }
@@ -95,7 +121,7 @@ public:
 
         T* nptr;
         nptr = new T[new_cap];
-        for (int i = 0; i < size_; i++)
+        for (size_type i = 0; i < size_; i++)
         {
             nptr[i] = data_[i];
         }
