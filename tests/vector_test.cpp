@@ -216,7 +216,6 @@ TEST(VectorTest, ReservePreservesData) {
 // 取消注释前，先实现: insert, erase (单个), erase (范围)
 // ═══════════════════════════════════════════════════════════════
 
-/*
 TEST(VectorTest, InsertMiddle) {
     ministl::vector<int> v{1, 2, 4, 5};
     auto it = v.insert(v.begin() + 2, 3);
@@ -250,7 +249,6 @@ TEST(VectorTest, EraseRange) {
     EXPECT_EQ(v[1], 4);
     EXPECT_EQ(v[2], 5);
 }
-*/
 
 // ═══════════════════════════════════════════════════════════════
 // Phase 5: 移动语义 + swap + resize + 比较

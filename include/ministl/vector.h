@@ -162,18 +162,42 @@ template <typename InputIt,
     }
 
     iterator insert(const_iterator pos, const T& value) {
-        // TODO
-        return nullptr;
+        size_type offset = pos - begin();
+        if (size_ == capacity_)
+        {
+            grow();
+        }
+        iterator it = begin() + offset;
+        for (size_type i = size_; i > offset; --i) 
+        {
+            data_[i] = data_[i - 1];
+        }
+        data_[offset] = value;
+        size_++;
+        
+        return it;
     }
 
     iterator erase(const_iterator pos) {
-        // TODO
-        return nullptr;
+        size_type offset = pos - begin();
+        for (size_type i = offset; i < size_-1; i++)
+        {
+            data_[i] = data_[i+1];
+        }
+        size_--;
+        return begin()+offset;
     }
 
     iterator erase(const_iterator first, const_iterator last) {
-        // TODO
-        return nullptr;
+        size_type f = first - begin();
+        size_type l = last - begin();
+        for (size_type i = last-begin(); i < size_; i++)
+        {
+            data_[i- l + f] = data_[i];
+        }
+        size_ -= last - first;
+        
+        return begin()+f;
     }
 
     void swap(vector& other) noexcept {
