@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <stdexcept>
+#include <iterator>
 
 #include <type_traits>
 
@@ -20,6 +21,8 @@ public:
     using const_pointer   = const T*;
     using iterator        = pointer;
     using const_iterator  = const_pointer;
+    using reverse_iterator       = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     // ─── 构造函数 ─────────────────────────────────────────
 
@@ -61,6 +64,17 @@ template <typename InputIt,
         }
     }
 
+    // 移动构造
+    vector(vector&& other){
+        data_ = other.data();
+        size_ = other.size();
+        capacity_ = other.capacity();
+        
+        other.data_ = nullptr;
+        other.size_ = 0;
+        other.capacity_ = 0;
+    }
+
     // ─── 析构函数 ─────────────────────────────────────────
 
     ~vector() {
@@ -82,6 +96,41 @@ template <typename InputIt,
         }
         return *this;
     }
+
+    // 移动赋值
+    vector& operator=(vector&& other) {
+        if (this == &other) 
+        {
+            return *this;
+        }
+
+        delete[] data_;
+        data_ = nullptr;
+        size_ = 0;
+        capacity_ = 0;
+
+        data_ = other.data_;
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+
+        other.data_ = nullptr;
+        other.size_ = 0;
+        other.capacity_ = 0;
+
+        return *this;
+    }
+
+    vector& operator=(std::initializer_list<T> init){
+        clear();
+        reserve(init.size());
+        for(const T& val: init)
+        {
+            push_back(val);
+        }
+
+        return *this;
+    }
+
 
     // ─── 元素访问 ─────────────────────────────────────────
 
@@ -119,6 +168,11 @@ template <typename InputIt,
     const_iterator cbegin() const noexcept { return data_; }
     const_iterator cend() const noexcept { return data_ + size_; }
 
+    reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+    reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+    const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
+    const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
+
     // ─── 容量 ─────────────────────────────────────────────
 
     bool empty() const noexcept { return size_ == 0; }
@@ -154,6 +208,15 @@ template <typename InputIt,
             grow();
         }
         data_[size_] = value;
+        size_++;
+    }
+
+    void push_back(T&& value) {
+        if(size_ == capacity_)
+        {
+            grow();
+        }
+        data_[size_] = std::move(value);
         size_++;
     }
 
@@ -205,6 +268,40 @@ template <typename InputIt,
         std::swap(size_, other.size_);
         std::swap(capacity_, other.capacity_);
     }
+
+    void resize(size_type count, const T& value = T()) {
+        if(count <= size_)
+        {
+            size_ = count;
+        }
+        else
+        {
+            reserve(count);
+            for (size_type i = 0; i < count-size_; i++)
+            {
+                push_back(value);
+            }
+        }
+    }
+
+    void shrink_to_fit()
+    {
+        if (capacity_ == size_) 
+        {
+            return;
+        }
+
+        T* nptr;
+        nptr = new T[size_];
+        for (size_type i = 0; i < size_; i++)
+        {
+            nptr[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = nptr;
+        capacity_ = size_;
+    }
+
 
     // ─── 比较运算符 ───────────────────────────────────────
 

@@ -256,7 +256,6 @@ TEST(VectorTest, EraseRange) {
 //   resize, shrink_to_fit, swap, 比较运算符, emplace_back
 // ═══════════════════════════════════════════════════════════════
 
-/*
 TEST(VectorTest, MoveConstruct) {
     ministl::vector<int> v1{1, 2, 3};
     auto* old_data = v1.data();
@@ -288,6 +287,7 @@ TEST(VectorTest, PushBackMove) {
     EXPECT_TRUE(s.empty());
 }
 
+/*
 TEST(VectorTest, EmplaceBack) {
     ministl::vector<std::pair<int, std::string>> v;
     v.emplace_back(1, "one");
