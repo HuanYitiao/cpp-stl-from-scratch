@@ -180,7 +180,6 @@ TEST(VectorTest, ConstIterator) {
 // 取消注释前，先实现: 拷贝构造, 拷贝赋值
 // ═══════════════════════════════════════════════════════════════
 
-/*
 TEST(VectorTest, CopyConstruct) {
     ministl::vector<int> v1{1, 2, 3};
     ministl::vector<int> v2(v1);
@@ -211,7 +210,6 @@ TEST(VectorTest, ReservePreservesData) {
     EXPECT_EQ(v[0], 1);
     EXPECT_EQ(v[2], 3);
 }
-*/
 
 // ═══════════════════════════════════════════════════════════════
 // Phase 4: insert + erase

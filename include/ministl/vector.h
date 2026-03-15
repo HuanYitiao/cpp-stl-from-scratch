@@ -54,7 +54,11 @@ template <typename InputIt,
 
     // 拷贝构造
     vector(const vector& other) {
-        // TODO
+        reserve(other.size());
+        for (size_type i = 0; i < other.size(); i++)
+        {
+            push_back(other[i]);
+        }
     }
 
     // ─── 析构函数 ─────────────────────────────────────────
@@ -67,7 +71,15 @@ template <typename InputIt,
 
     // 拷贝赋值
     vector& operator=(const vector& other) {
-        // TODO
+        if (this!=&other)
+        {
+            clear();
+            reserve(other.size());
+            for (size_type i = 0; i < other.size(); i++)
+            {
+                push_back(other[i]);
+            }
+        }
         return *this;
     }
 
