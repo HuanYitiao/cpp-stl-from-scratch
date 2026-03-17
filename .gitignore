@@ -54,3 +54,6 @@ cmake-build-*/
 # OS
 .DS_Store
 Thumbs.db
+
+# Test records
+Testing/
